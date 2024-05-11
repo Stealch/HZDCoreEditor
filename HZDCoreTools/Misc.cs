@@ -13,22 +13,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Miscellaneous utilities.
+/// </summary>
 public static class Misc
 {
     private const string PrefetchCorePath = "prefetch/fullgame.prefetch.core";
 
+    /// <summary>
+    /// Extract all strings contained in a set of archives.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <returns>void.</returns>
     [Verb("exportstrings", HelpText = "Extract all strings contained in a set of archives.")]
     public class ExportAllStringsCommand
-    {
+    {   
+        /// <summary>
+        /// The input path for game data (.bin).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// The output path for the generated text file (.txt, *.*).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Only dump strings that contain valid core file paths.
+        /// </summary>
         [Option("validpathsonly", HelpText = "Only dump strings that contain valid core file paths.")]
         public bool ValidPathsOnly { get; set; }
 
+        /// <summary>
+        /// The examples for this command.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
@@ -44,15 +64,29 @@ public static class Misc
         }
     }
 
+    /// <summary>
+    /// Extract all script entry point names contained in a set of archives.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <returns>void.</returns>
     [Verb("exportentrypointnames", HelpText = "Extract all script entry point names contained in a set of archives.")]
     public class ExportEntryPointNamesCommand
     {
+        /// <summary>
+        /// The input path for game data (.bin).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// The output path for the generated text file (.txt, *.*).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// The examples for this command.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
@@ -67,27 +101,53 @@ public static class Misc
         }
     }
 
+    /// <summary>
+    /// Rebuild fullgame.prefetch.core from a set of archives.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <returns>void.</returns>
     [Verb("rebuildprefetch", HelpText = "Rebuild fullgame.prefetch.core from a set of archives.")]
     public class RebuildPrefetchFileCommand
     {
+        /// <summary>
+        /// The input path for game data (.bin).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// The output path for the generated core or archive file (.bin, .core).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated core or archive file (.bin, .core).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Skip rebuilding of file sizes.
+        /// </summary>
         [Option("skipsizes", HelpText = "Skip rebuilding of file sizes.")]
         public bool SkipSizes { get; set; }
 
+        /// <summary>
+        /// Skip rebuilding of ref links.
+        /// </summary>
         [Option("skiplinks", HelpText = "Skip rebuilding of ref links.")]
         public bool SkipLinks { get; set; }
 
+        /// <summary>
+        /// Skip all archives except for patch files.
+        /// </summary>
         [Option("patchesonly", HelpText = "Skip all archives except for patch files.")]
         public bool PatchesOnly { get; set; }
 
+        /// <summary>
+        /// Print extra information to the console, such as which entries are updated.
+        /// </summary>
         [Option('v', "verbose", HelpText = "Print extra information to the console, such as which entries are updated.")]
         public bool Verbose { get; set; }
 
+        /// <summary>
+        /// The examples for this command.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
@@ -109,26 +169,52 @@ public static class Misc
         }
     }
 
+    /// <summary>
+    /// Convert binary core files to json format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <returns>void.</returns>
     [Verb("coretojson", HelpText = "Convert binary core files to json format.")]
     public class CoreToJsonCommand
     {
+        /// <summary>
+        /// The input path for game data (*.core).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (*.core). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// The output path for the generated json files (.json).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for the generated json files (.json).")]
         public string OutputPath { get; set; }
     }
 
+    /// <summary>
+    /// Convert json core files to binary format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <returns>void.</returns>
     [Verb("jsontocore", HelpText = "Convert json core files to binary format.")]
     public class JsonToCoreCommand
     {
+        /// <summary>
+        /// The input path for game data (*.json).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (*.json). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// The output path for the generated core files (.core).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for the generated core files (.core).")]
         public string OutputPath { get; set; }
     }
 
+    /// <summary>
+    /// Extract all strings contained in a set of archives.
+    /// </summary>
+    /// <param name="options"></param>
     public static void ExportAllStrings(ExportAllStringsCommand options)
     {
         var sourceBins = Utils.GatherFiles(options.InputPath, new[] { ".bin" }, out _);
@@ -218,6 +304,10 @@ public static class Misc
         }
     }
 
+    /// <summary>
+    /// Extract all strings contained in a set of archives.
+    /// </summary>
+    /// <param name="options"></param>
     public static void ExportEntryPointNames(ExportEntryPointNamesCommand options)
     {
         var sourceBins = Utils.GatherFiles(options.InputPath, new[] { ".bin" }, out _);
@@ -260,6 +350,12 @@ public static class Misc
         Console.WriteLine($"Total lines extracted: {allStrings.Count}");
     }
 
+    /// <summary>
+    /// Rebuild the fullgame.prefetch.core file from a set of archives.
+    /// </summary>
+    /// <param name="options"></param>
+    /// <exception cref="FileNotFoundException"></exception>
+    /// <exception cref="Exception"></exception>
     public static void RebuildPrefetchFile(RebuildPrefetchFileCommand options)
     {
         CoreBinary prefetchCore = null;
@@ -319,6 +415,71 @@ public static class Misc
         }
     }
 
+/// <summary>
+/// Convert binary core files to json format.
+/// </summary>
+/// <param name="options"></param>
+    public static void CoreToJson(CoreToJsonCommand options)
+    {
+        var sourceCores = Utils.GatherFiles(options.InputPath, new[] { ".core" }, out _);
+        var serializerSettings = new JsonSerializerSettings()
+        {
+            Formatting = Formatting.Indented,
+            TypeNameHandling = TypeNameHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Converters = new List<JsonConverter>() { new BaseGGUUIDConverter() },
+        };
+
+        foreach ((string absolute, string relative) in sourceCores)
+        {
+            var core = CoreBinary.FromFile(absolute);
+            var outputJsonPath = Path.Combine(options.OutputPath, relative) + ".json";
+
+            Console.WriteLine($"Converting {relative}...");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(outputJsonPath));
+            File.WriteAllText(outputJsonPath, JsonConvert.SerializeObject(core.Objects, serializerSettings));
+        }
+    }
+
+    /// <summary>
+    /// Convert json core files to binary format.
+    /// </summary>
+    /// <param name="options"></param>
+    public static void JsonToCore(JsonToCoreCommand options)
+    {
+        var sourceJsons = Utils.GatherFiles(options.InputPath, new[] { ".json" }, out _);
+        var serializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Converters = new List<JsonConverter>() { new BaseGGUUIDConverter() },
+        };
+
+        foreach ((string absolute, string relative) in sourceJsons)
+        {
+            var objects = JsonConvert.DeserializeObject<IEnumerable<object>>(File.ReadAllText(absolute), serializerSettings);
+            var core = new CoreBinary();
+            var outputCorePath = Path.Combine(options.OutputPath, Path.ChangeExtension(relative, ".core"));
+
+            Console.WriteLine($"Converting {relative}...");
+
+            foreach (var obj in objects)
+                core.AddObject(obj);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(outputCorePath));
+            core.ToFile(outputCorePath, FileMode.Create);
+        }
+    }
+
+    /// <summary>
+    /// Rebuild the fullgame.prefetch.core file from a set of archives.
+    /// </summary>
+    /// <param name="prefetch"></param>
+    /// <param name="device"></param>
+    /// <param name="options"></param>
+    /// <exception cref="FileNotFoundException"></exception>
+    /// <exception cref="KeyNotFoundException"></exception>
     private static void RebuildPrefetchForFiles(Decima.HZD.PrefetchList prefetch, PackfileDevice device, RebuildPrefetchFileCommand options)
     {
         // Convert the old links to a dictionary
@@ -415,6 +576,11 @@ public static class Misc
         }
     }
 
+    /// <summary>
+    /// Dump the prefetch links to a file.
+    /// </summary>
+    /// <param name="prefetch"></param>
+    /// <param name="filePath"></param>
     private static void DumpPrefetchLinksToFile(Decima.HZD.PrefetchList prefetch, string filePath)
     {
         var allLines = new List<string>();
@@ -437,54 +603,5 @@ public static class Misc
         }
 
         File.WriteAllLines(filePath, allLines);
-    }
-
-    public static void CoreToJson(CoreToJsonCommand options)
-    {
-        var sourceCores = Utils.GatherFiles(options.InputPath, new[] { ".core" }, out _);
-        var serializerSettings = new JsonSerializerSettings()
-        {
-            Formatting = Formatting.Indented,
-            TypeNameHandling = TypeNameHandling.Objects,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Converters = new List<JsonConverter>() { new BaseGGUUIDConverter() },
-        };
-
-        foreach ((string absolute, string relative) in sourceCores)
-        {
-            var core = CoreBinary.FromFile(absolute);
-            var outputJsonPath = Path.Combine(options.OutputPath, relative) + ".json";
-
-            Console.WriteLine($"Converting {relative}...");
-
-            Directory.CreateDirectory(Path.GetDirectoryName(outputJsonPath));
-            File.WriteAllText(outputJsonPath, JsonConvert.SerializeObject(core.Objects, serializerSettings));
-        }
-    }
-
-    public static void JsonToCore(JsonToCoreCommand options)
-    {
-        var sourceJsons = Utils.GatherFiles(options.InputPath, new[] { ".json" }, out _);
-        var serializerSettings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.Objects,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Converters = new List<JsonConverter>() { new BaseGGUUIDConverter() },
-        };
-
-        foreach ((string absolute, string relative) in sourceJsons)
-        {
-            var objects = JsonConvert.DeserializeObject<IEnumerable<object>>(File.ReadAllText(absolute), serializerSettings);
-            var core = new CoreBinary();
-            var outputCorePath = Path.Combine(options.OutputPath, Path.ChangeExtension(relative, ".core"));
-
-            Console.WriteLine($"Converting {relative}...");
-
-            foreach (var obj in objects)
-                core.AddObject(obj);
-
-            Directory.CreateDirectory(Path.GetDirectoryName(outputCorePath));
-            core.ToFile(outputCorePath, FileMode.Create);
-        }
     }
 }
