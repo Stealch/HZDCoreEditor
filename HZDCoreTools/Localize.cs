@@ -16,6 +16,9 @@ using HZDCoreTools.Util;
 /// </summary>
 public static class Localize
 {
+    /// <summary>
+    /// List of valid file extensions.
+    /// </summary>
     private static readonly string[] _validExtensions = new string[]
     {
             ".bin",
@@ -27,26 +30,47 @@ public static class Localize
     /// </summary>
     public class LocalizationCommand
     {
+        /// <summary>
+        /// List of possible languages.
+        /// </summary>
         private const string PossibleLanguages = "Language to use " +
             "(English, Dutch, German, French, Spanish, Italian, Portugese, Japanese, Chinese_Traditional, " +
             "Korean, Russian, Polish, Danish, Finnish, Norwegian, Swedish, LATAMSP, LATAMPOR, Turkish, Arabic, Chinese_Simplified).";
 
+        /// <summary>
+        /// Gets or sets input path.
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin, .core). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets language to use.
+        /// </summary>
         [Option('l', "language", Required = true, HelpText = PossibleLanguages)]
         public Decima.HZD.ELanguage Language { get; set; }
 
+        /// <summary>
+        /// Gets or sets line delimiter/separator.
+        /// </summary>
         [Option('d', "delimiter", HelpText = "Line delimiter/separator.", Default = '|')]
         public char Delimiter { get; set; }
     }
 
+    /// <summary>
+    /// Export game localization to a text file.
+    /// </summary>
     [Verb("exporttext", HelpText = "Export game localization to a text file.")]
     public class ExportLocalizationCommand : LocalizationCommand
     {
+        /// <summary>
+        /// Gets or sets output path.
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated translation file (.txt, *.*).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Gets whether to force update existing translation data.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
@@ -70,18 +94,33 @@ public static class Localize
         }
     }
 
+    /// <summary>
+    /// Import game localization from a text file and optionally create an archive.
+    /// </summary>
     [Verb("importtext", HelpText = "Import game localization from a text file and optionally create an archive.")]
     public class ImportLocalizationCommand : LocalizationCommand
     {
+        /// <summary>
+        /// Gets or sets output path.
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for modified core files. Specify a .bin file to generate an archive instead.")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets input path.
+        /// </summary>
         [Option('t', "translationfile", Required = true, HelpText = "OS input path for file containing translated text (.txt, *.*).")]
         public string InputTranslationFile { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether force string replacement even if lines are identical.
+        /// </summary>
         [Option('f', "forceupdate", HelpText = "Force string replacement even if lines are identical.")]
         public bool ForceUpdate { get; set; }
 
+        /// <summary>
+        /// Gets whether to force update existing translation data.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
@@ -108,6 +147,10 @@ public static class Localize
         }
     }
 
+    /// <summary>
+    /// Export game localization to a text file.
+    /// </summary>
+    /// <param name="options">The options for exporting localization.</param>
     public static void ExportLocalization(ExportLocalizationCommand options)
     {
         var sourceFiles = Utils.GatherFiles(options.InputPath, _validExtensions, out string ext);
@@ -130,6 +173,10 @@ public static class Localize
         Console.WriteLine($"Total lines extracted: {allTextLines.Count}");
     }
 
+    /// <summary>
+    /// Import game localization from a text file and optionally create an archive.
+    /// </summary>
+    /// <param name="options">The options for importing localization.</param>
     public static void ImportLocalization(ImportLocalizationCommand options)
     {
         var translationData = ReadTranslationFile(options);
@@ -211,6 +258,13 @@ public static class Localize
         Console.WriteLine($"Total cores patched: {patchedCores.Count}");
     }
 
+    /// <summary>
+    /// Generate a translation entry for the specified core file.
+    /// </summary>
+    /// <param name="options">The options for generating the translation entry.</param>
+    /// <param name="resource">The resource to generate the translation entry for.</param>
+    /// <param name="corePath">The path of the core file to generate the translation entry for.</param>
+    /// <returns>A formatted string representing the translation entry.</returns>
     private static string GenerateTranslationEntry(ExportLocalizationCommand options, Decima.HZD.LocalizedTextResource resource, string corePath)
     {
         var data = resource.GetStringForLanguage(options.Language);
@@ -221,6 +275,12 @@ public static class Localize
         return string.Format("{0}{1}{0}{2}{0}{3}{0}", options.Delimiter, corePath, resource.ObjectUUID, data);
     }
 
+    /// <summary>
+    /// Read translation data from a file.
+    /// </summary>
+    /// <param name="options">The options for reading the translation file.</param>
+    /// <returns>A dictionary containing the translation data read from the file.</returns>
+    /// <exception cref="FormatException">Tokenization failed on line {i}. Invalid data or delimiter format.</exception>
     private static Dictionary<string, List<(string ObjectUUID, string TextData)>> ReadTranslationFile(ImportLocalizationCommand options)
     {
         var allLines = File.ReadAllLines(options.InputTranslationFile);
@@ -251,6 +311,14 @@ public static class Localize
         return translationData;
     }
 
+    /// <summary>
+    /// Create a stream enumerator for the specified files.
+    /// </summary>
+    /// <param name="files">An enumerable collection of tuples representing file paths. The first item in the tuple is the absolute path to the file, and the second item is the relative path to the file.</param>
+    /// <param name="useRawCoreFiles">A boolean value indicating whether to use raw core files or not.</param>
+    /// <param name="filter">An optional predicate to filter the files.</param>
+    /// <returns>An enumerable collection of tuples representing the core path and the stream of the file.</returns>
+    /// <exception cref="Exception">If an error occurs while processing the files.</exception>
     private static IEnumerable<(string corePath, Stream Stream)> CreateFileStreamEnumerator(IEnumerable<(string Absolute, string Relative)> files, bool useRawCoreFiles, Predicate<string> filter = null)
     {
         if (useRawCoreFiles)
