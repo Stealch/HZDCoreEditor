@@ -5,8 +5,15 @@ using System.Windows.Forms;
 using CommandLine;
 using Decima;
 
+/// <summary>
+/// Entry point of the application.
+/// </summary>
 public class Program
 {
+    /// <summary>
+    /// Main method to start the application.
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
     [STAThread]
     public static void Main(string[] args)
     {
@@ -26,14 +33,26 @@ public class Program
         Application.Run(new UI.FormCoreView(cmds));
     }
 
+    /// <summary>
+    /// Command line options.
+    /// </summary>
     public class CmdOptions
     {
+        /// <summary>
+        /// Gets or sets search for text.
+        /// </summary>
         [Option('s', "search", HelpText = "Search for text")]
         public string Search { get; set; }
 
+        /// <summary>
+        /// Gets or sets highlight object by id.
+        /// </summary>
         [Option('o', "object", HelpText = "Highlight object by id")]
         public string ObjectId { get; set; }
 
+        /// <summary>
+        /// Gets or sets file path.
+        /// </summary>
         [Value(0)]
         public string File { get; set; }
     }

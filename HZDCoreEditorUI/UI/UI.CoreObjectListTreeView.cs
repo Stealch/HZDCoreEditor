@@ -6,10 +6,16 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using HZDCoreEditorUI.Util;
 
+/// <summary>
+/// A TreeListView that displays a list of objects.
+/// </summary>
 public class CoreObjectListTreeView : TreeListView
 {
     private readonly OLVColumn[] _defaultColumns;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CoreObjectListTreeView"/> class.
+    /// </summary>
     public CoreObjectListTreeView()
     {
         CanExpandGetter = CanExpandGetterHandler;
@@ -40,6 +46,10 @@ public class CoreObjectListTreeView : TreeListView
         CreateColumns();
     }
 
+    /// <summary>
+    /// Rebuilds the tree from the provided objects.
+    /// </summary>
+    /// <param name="baseObjects">A list of objects to rebuild the tree from.</param>
     public void RebuildTreeFromObjects(List<object> baseObjects)
     {
         // Sort object list into each category based on the type name
