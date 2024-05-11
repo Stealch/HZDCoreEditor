@@ -11,6 +11,9 @@ using CommandLine;
 using CommandLine.Text;
 using HZDCoreTools.Util;
 
+/// <summary>
+/// Localization utilities.
+/// </summary>
 public static class Localize
 {
     private static readonly string[] _validExtensions = new string[]
@@ -19,6 +22,9 @@ public static class Localize
             ".core",
     };
 
+    /// <summary>
+    /// Export game localization to a text file.
+    /// </summary>
     public class LocalizationCommand
     {
         private const string PossibleLanguages = "Language to use " +

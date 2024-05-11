@@ -5,6 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 using Decima;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Converts BaseGGUUIDs to and from strings.
+/// </summary>
 public class BaseGGUUIDConverter : JsonConverter<BaseGGUUID>
 {
     public override BaseGGUUID ReadJson(JsonReader reader, Type objectType, [AllowNull] BaseGGUUID existingValue, bool hasExistingValue, JsonSerializer serializer)

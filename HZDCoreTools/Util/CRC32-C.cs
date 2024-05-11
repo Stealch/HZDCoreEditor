@@ -2,6 +2,9 @@
 
 using System;
 
+/// <summary>
+/// CRC32-C.
+/// </summary>
 internal static class CRC32C
 {
     private static readonly uint[] _lookupTable;

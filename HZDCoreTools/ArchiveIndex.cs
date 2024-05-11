@@ -10,51 +10,86 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+/// <summary>
+/// Archive index utilities.
+/// </summary>
 public static class ArchiveIndex
 {
-    [Verb("exportindexstrings", HelpText = "Extract all paths contained in a set of archive index files.")]
-    public class ExportIndexFilesCommand
+/// <summary>
+/// Represents a verb for exporting paths contained in a set of archive index files.
+/// </summary>
+[Verb("exportindexstrings", HelpText = "Extract all paths contained in a set of archive index files.")]
+public class ExportIndexFilesCommand
+{
+    /// <summary>
+    /// Gets or sets the input path for game data (.idx). Supports wildcards (*).
+    /// </summary>
+    [Option('i', "input", Required = true, HelpText = "OS input path for game data (.idx). Wildcards (*) supported.")]
+    public string InputPath { get; set; }
+
+    /// <summary>
+    /// Gets or sets the output path for the generated text file (.txt, *.*).
+    /// </summary>
+    [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
+    public string OutputPath { get; set; }
+
+    /// <summary>
+    /// Gets the examples for this verb.
+    /// </summary>
+    [Usage(ApplicationAlias = nameof(HZDCoreTools))]
+    public static IEnumerable<Example> Examples
     {
-        [Option('i', "input", Required = true, HelpText = "OS input path for game data (.idx). Wildcards (*) supported.")]
-        public string InputPath { get; set; }
-
-        [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
-        public string OutputPath { get; set; }
-
-        [Usage(ApplicationAlias = nameof(HZDCoreTools))]
-        public static IEnumerable<Example> Examples
+        get
         {
-            get
+            // Provides an example of how to use this verb.
+            yield return new Example("Extract single index", new ExportIndexFilesCommand
             {
-                yield return new Example("Extract single index", new ExportIndexFilesCommand
-                {
-                    InputPath = @"E:\HZD\Packed_DX12\Initial.idx",
-                    OutputPath = @"E:\HZD\Packed_DX12\valid_file_lines.txt",
-                });
-            }
+                InputPath = @"E:\HZD\Packed_DX12\Initial.idx",
+                OutputPath = @"E:\HZD\Packed_DX12\valid_file_lines.txt",
+            });
         }
     }
+}
 
-    [Verb("rebuildindexfiles", HelpText = "Rebuild index files from a set of archives.")]
-    public class RebuildIndexFilesCommand
+    /// <summary>
+    /// This class represents the command to rebuild index files from a set of archives.
+    /// </summary>
+[Verb("rebuildindexfiles", HelpText = "Rebuild index files from a set of archives.")]
+public class RebuildIndexFilesCommand
     {
+        /// <summary>
+        /// Gets or sets the OS input path for game data (.bin). Wildcards (*) are supported.
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OS output directory for the generated index files (.idx).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for the generated index files (.idx).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets the OS input path for a text file containing possible core file paths (.txt, *.*).
+        /// </summary>
         [Option('l', "lookupfile", Required = true, HelpText = "OS input path for a text file containing possible core file paths (.txt, *.*).")]
         public string LookupFile { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to skip creating entries if paths can't be mapped from the lookup file.
+        /// </summary>
         [Option('s', "skipmissing", HelpText = "Skip creating entries if paths can't be mapped from the lookup file.")]
         public bool SkipMissing { get; set; }
 
+        /// <summary>
+        /// Gets the usage examples for this command.
+        /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
         {
             get
             {
+                // Example 1: Update all
                 yield return new Example("Update all", new RebuildIndexFilesCommand
                 {
                     InputPath = @"E:\HZD\Packed_DX12\*.bin",
@@ -62,6 +97,7 @@ public static class ArchiveIndex
                     LookupFile = "valid_file_lines.txt",
                 });
 
+                // Example 2: Update single bin
                 yield return new Example("Update single bin", new RebuildIndexFilesCommand
                 {
                     InputPath = @"E:\HZD\Packed_DX12\DLC1.bin",
@@ -72,7 +108,11 @@ public static class ArchiveIndex
         }
     }
 
-    public static void ExportIndexFiles(ExportIndexFilesCommand options)
+    /// <summary>
+    /// Export all paths contained in a set of archive index files.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+public static void ExportIndexFiles(ExportIndexFilesCommand options)
     {
         var sourceIndexes = Utils.GatherFiles(options.InputPath, new[] { ".idx" }, out _);
         var allValidPaths = new ConcurrentDictionary<string, bool>();
@@ -91,7 +131,11 @@ public static class ArchiveIndex
         File.WriteAllLines(options.OutputPath, allValidPaths.Keys.OrderBy(x => x));
     }
 
-    public static void RebuildIndexFiles(RebuildIndexFilesCommand options)
+    /// <summary>
+    /// Rebuild index files from a set of archives.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+public static void RebuildIndexFiles(RebuildIndexFilesCommand options)
     {
         // Create table of lookup strings
         var fileLines = File.ReadAllLines(options.LookupFile);

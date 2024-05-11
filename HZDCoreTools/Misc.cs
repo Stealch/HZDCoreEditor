@@ -214,7 +214,7 @@ public static class Misc
     /// <summary>
     /// Extract all strings contained in a set of archives.
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">The command options.</param>
     public static void ExportAllStrings(ExportAllStringsCommand options)
     {
         var sourceBins = Utils.GatherFiles(options.InputPath, new[] { ".bin" }, out _);
@@ -307,7 +307,7 @@ public static class Misc
     /// <summary>
     /// Extract all strings contained in a set of archives.
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">The command options.</param>
     public static void ExportEntryPointNames(ExportEntryPointNamesCommand options)
     {
         var sourceBins = Utils.GatherFiles(options.InputPath, new[] { ".bin" }, out _);
@@ -353,9 +353,9 @@ public static class Misc
     /// <summary>
     /// Rebuild the fullgame.prefetch.core file from a set of archives.
     /// </summary>
-    /// <param name="options"></param>
-    /// <exception cref="FileNotFoundException"></exception>
-    /// <exception cref="Exception"></exception>
+    /// <param name="options">The command options.</param>
+    /// <exception cref="FileNotFoundException">Thrown when the prefetch core file is not found.</exception>
+    /// <exception cref="Exception">Thrown when an error occurs during the rebuild process.</exception>
     public static void RebuildPrefetchFile(RebuildPrefetchFileCommand options)
     {
         CoreBinary prefetchCore = null;
@@ -415,10 +415,10 @@ public static class Misc
         }
     }
 
-/// <summary>
-/// Convert binary core files to json format.
-/// </summary>
-/// <param name="options"></param>
+    /// <summary>
+    /// Convert binary core files to json format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
     public static void CoreToJson(CoreToJsonCommand options)
     {
         var sourceCores = Utils.GatherFiles(options.InputPath, new[] { ".core" }, out _);
@@ -445,7 +445,7 @@ public static class Misc
     /// <summary>
     /// Convert json core files to binary format.
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">The command options.</param>
     public static void JsonToCore(JsonToCoreCommand options)
     {
         var sourceJsons = Utils.GatherFiles(options.InputPath, new[] { ".json" }, out _);
@@ -475,11 +475,11 @@ public static class Misc
     /// <summary>
     /// Rebuild the fullgame.prefetch.core file from a set of archives.
     /// </summary>
-    /// <param name="prefetch"></param>
-    /// <param name="device"></param>
-    /// <param name="options"></param>
-    /// <exception cref="FileNotFoundException"></exception>
-    /// <exception cref="KeyNotFoundException"></exception>
+    /// <param name="prefetch">The prefetch list containing files and links.</param>
+    /// <param name="device">The device used for the operation.</param>
+    /// <param name="options">The command options.</param>
+    /// <exception cref="FileNotFoundException">Thrown when the prefetch core file is not found.</exception>
+    /// <exception cref="KeyNotFoundException">Thrown when a key is not found in the dictionary.</exception>
     private static void RebuildPrefetchForFiles(Decima.HZD.PrefetchList prefetch, PackfileDevice device, RebuildPrefetchFileCommand options)
     {
         // Convert the old links to a dictionary
@@ -579,8 +579,8 @@ public static class Misc
     /// <summary>
     /// Dump the prefetch links to a file.
     /// </summary>
-    /// <param name="prefetch"></param>
-    /// <param name="filePath"></param>
+    /// <param name="prefetch">The prefetch list containing files and links.</param>
+    /// <param name="filePath">The path of the file to write the links to.</param>
     private static void DumpPrefetchLinksToFile(Decima.HZD.PrefetchList prefetch, string filePath)
     {
         var allLines = new List<string>();

@@ -5,6 +5,9 @@ using System.Linq;
 using CommandLine;
 using Decima;
 
+/// <summary>
+/// The main entry point.
+/// </summary>
 public class Program
 {
     public static void Main(string[] args)

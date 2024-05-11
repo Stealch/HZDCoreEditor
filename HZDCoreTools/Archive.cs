@@ -10,42 +10,79 @@ using CommandLine;
 using Decima;
 using HZDCoreTools.Util;
 
+/// <summary>
+/// Utilities for working with archives.
+/// </summary>
 public static class Archive
 {
     private const string PrefetchCorePath = "prefetch/fullgame.prefetch.core";
 
+    /// <summary>
+    /// The command options.
+    /// </summary>
     public class ArchiveCommand
     {
+        /// <summary>
+        /// Gets or sets if specified, use this regex to exclude files matching the filter.
+        /// </summary>
         [Option('r', "ignore", HelpText = "If specified, use this regex to exclude files matching the filter.")]
         public string IgnoredRegex { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether print extra information to the console, such as files being extracted.
+        /// </summary>
         [Option('v', "verbose", HelpText = "Print extra information to the console, such as files being extracted.")]
         public bool Verbose { get; set; }
     }
 
+    /// <summary>
+    /// The command options.
+    /// </summary>
     [Verb("pack", HelpText = "Create a game archive.")]
     public class PackArchiveCommand : ArchiveCommand
     {
+        /// <summary>
+        /// Gets or sets oS input path for game data (*.*, .core, .stream).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (*.*, .core, .stream). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets oS output path for the generated bin file (.bin).
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated bin file (.bin).")]
         public string OutputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether force include unsupported file extensions.
+        /// </summary>
         [Option('f', "force", HelpText = "Force include unsupported file extensions.")]
         public bool ForceUnsupported { get; set; }
     }
 
+    /// <summary>
+    /// The command options.
+    /// </summary>
     [Verb("unpack", HelpText = "Extract a game archive.")]
     public class ExtractArchiveCommand : ArchiveCommand
     {
+        /// <summary>
+        /// Gets or sets oS input path for game data (.bin).
+        /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets oS output directory for core files.
+        /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for core files.")]
         public string OutputPath { get; set; }
     }
 
+    /// <summary>
+    /// Create a game archive.
+    /// </summary>
+    /// <param name="options">The command options.</param>
     public static void PackArchive(PackArchiveCommand options)
     {
         var sourceFiles = Utils.GatherFiles(options.InputPath, null, out string _);
@@ -84,6 +121,10 @@ public static class Archive
         packfile.BuildFromFileList(options.InputPath, GatherValidFiles());
     }
 
+    /// <summary>
+    /// Extract a game archive.
+    /// </summary>
+    /// <param name="options">The command options.</param>
     public static void ExtractArchive(ExtractArchiveCommand options)
     {
         var sourceFiles = Utils.GatherFiles(options.InputPath, new[] { ".bin" }, out string _);
@@ -153,6 +194,11 @@ public static class Archive
         Console.WriteLine($"Total files extracted: {filesExtracted}");
     }
 
+    /// <summary>
+    /// Build a table of file names from the prefetch.
+    /// </summary>
+    /// <param name="device">The PackfileDevice containing the prefetch data.</param>
+    /// <returns>A dictionary containing file names mapped to their corresponding identifiers.</returns>
     public static Dictionary<ulong, string> BuildFileNamesFromPrefetch(PackfileDevice device)
     {
         var lookupTable = new Dictionary<ulong, string>();

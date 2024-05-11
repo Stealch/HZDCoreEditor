@@ -6,6 +6,9 @@ using System.IO;
 using System.Linq;
 using Decima;
 
+/// <summary>
+/// Utility methods.
+/// </summary>
 public static class Utils
 {
     public static IEnumerable<(string Absolute, string Relative)> GatherFiles(string inputPath, string[] acceptedExtensions, out string extension)
