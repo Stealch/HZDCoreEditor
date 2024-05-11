@@ -27,27 +27,27 @@ public static class Misc
     /// <returns>void.</returns>
     [Verb("exportstrings", HelpText = "Extract all strings contained in a set of archives.")]
     public class ExportAllStringsCommand
-    {   
+    {
         /// <summary>
-        /// The input path for game data (.bin).
+        /// Gets or sets the input path for game data (.bin).
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
         /// <summary>
-        /// The output path for the generated text file (.txt, *.*).
+        /// Gets or sets the output path for the generated text file (.txt, *.*).
         /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// Only dump strings that contain valid core file paths.
+        /// Gets or sets a value indicating whether only dump strings that contain valid core file paths.
         /// </summary>
         [Option("validpathsonly", HelpText = "Only dump strings that contain valid core file paths.")]
         public bool ValidPathsOnly { get; set; }
 
         /// <summary>
-        /// The examples for this command.
+        /// Gets the examples for this command.
         /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
@@ -73,19 +73,19 @@ public static class Misc
     public class ExportEntryPointNamesCommand
     {
         /// <summary>
-        /// The input path for game data (.bin).
+        /// Gets or sets the input path for game data (.bin).
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
         /// <summary>
-        /// The output path for the generated text file (.txt, *.*).
+        /// Gets or sets the output path for the generated text file (.txt, *.*).
         /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated text file (.txt, *.*).")]
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// The examples for this command.
+        /// Gets the examples for this command.
         /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
@@ -110,43 +110,43 @@ public static class Misc
     public class RebuildPrefetchFileCommand
     {
         /// <summary>
-        /// The input path for game data (.bin).
+        /// Gets or sets the input path for game data (.bin).
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (.bin). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
         /// <summary>
-        /// The output path for the generated core or archive file (.bin, .core).
+        /// Gets or sets the output path for the generated core or archive file (.bin, .core).
         /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output path for the generated core or archive file (.bin, .core).")]
         public string OutputPath { get; set; }
 
         /// <summary>
-        /// Skip rebuilding of file sizes.
+        /// Gets or sets a value indicating whether skip rebuilding of file sizes.
         /// </summary>
         [Option("skipsizes", HelpText = "Skip rebuilding of file sizes.")]
         public bool SkipSizes { get; set; }
 
         /// <summary>
-        /// Skip rebuilding of ref links.
+        /// Gets or sets a value indicating whether skip rebuilding of ref links.
         /// </summary>
         [Option("skiplinks", HelpText = "Skip rebuilding of ref links.")]
         public bool SkipLinks { get; set; }
 
         /// <summary>
-        /// Skip all archives except for patch files.
+        /// Gets or sets a value indicating whether skip all archives except for patch files.
         /// </summary>
         [Option("patchesonly", HelpText = "Skip all archives except for patch files.")]
         public bool PatchesOnly { get; set; }
 
         /// <summary>
-        /// Print extra information to the console, such as which entries are updated.
+        /// Gets or sets a value indicating whether print extra information to the console, such as which entries are updated.
         /// </summary>
         [Option('v', "verbose", HelpText = "Print extra information to the console, such as which entries are updated.")]
         public bool Verbose { get; set; }
 
         /// <summary>
-        /// The examples for this command.
+        /// Gets the examples for this command.
         /// </summary>
         [Usage(ApplicationAlias = nameof(HZDCoreTools))]
         public static IEnumerable<Example> Examples
@@ -178,13 +178,13 @@ public static class Misc
     public class CoreToJsonCommand
     {
         /// <summary>
-        /// The input path for game data (*.core).
+        /// Gets or sets the input path for game data (*.core).
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (*.core). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
         /// <summary>
-        /// The output path for the generated json files (.json).
+        /// Gets or sets the output path for the generated json files (.json).
         /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for the generated json files (.json).")]
         public string OutputPath { get; set; }
@@ -199,13 +199,13 @@ public static class Misc
     public class JsonToCoreCommand
     {
         /// <summary>
-        /// The input path for game data (*.json).
+        /// Gets or sets the input path for game data (*.json).
         /// </summary>
         [Option('i', "input", Required = true, HelpText = "OS input path for game data (*.json). Wildcards (*) supported.")]
         public string InputPath { get; set; }
 
         /// <summary>
-        /// The output path for the generated core files (.core).
+        /// Gets or sets the output path for the generated core files (.core).
         /// </summary>
         [Option('o', "output", Required = true, HelpText = "OS output directory for the generated core files (.core).")]
         public string OutputPath { get; set; }
