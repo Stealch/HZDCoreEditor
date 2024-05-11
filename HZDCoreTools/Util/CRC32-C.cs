@@ -25,6 +25,12 @@ internal static class CRC32C
         }
     }
 
+    /// <summary>
+    /// CRC32-C.
+    /// </summary>
+    /// <param name="data">The input data for which to calculate the CRC32-C checksum.</param>
+    /// <param name="seed">The seed value for the CRC32-C calculation. Defaults to 0.</param>
+    /// <returns>The calculated CRC32-C checksum of the input data.</returns>
     public static uint Checksum(ReadOnlySpan<byte> data, uint seed = 0)
     {
         for (int i = 0; i < data.Length; i++)

@@ -10,6 +10,10 @@ using Decima;
 /// </summary>
 public class Program
 {
+    /// <summary>
+    /// The main entry point.
+    /// </summary>
+    /// <param name="args">The command-line arguments passed to the program.</param>
     public static void Main(string[] args)
     {
         // Determine the game type from the first arg if it was supplied. Default to HZD otherwise.

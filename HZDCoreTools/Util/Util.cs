@@ -11,6 +11,14 @@ using Decima;
 /// </summary>
 public static class Utils
 {
+    /// <summary>
+    /// Gathers files from the given path.
+    /// </summary>
+    /// <param name="inputPath">The path from which files are gathered.</param>
+    /// <param name="acceptedExtensions">The accepted file extensions. If null, any file extension is accepted.</param>
+    /// <param name="extension">The extension of the gathered files.</param>
+    /// <returns>An enumerable of tuples containing the absolute and relative paths of the gathered files.</returns>
+    /// <exception cref="ArgumentException">Thrown when an invalid path is supplied.</exception>
     public static IEnumerable<(string Absolute, string Relative)> GatherFiles(string inputPath, string[] acceptedExtensions, out string extension)
     {
         // If no directory is supplied, use the current working dir
@@ -37,6 +45,11 @@ public static class Utils
             .Select(x => (x, x.Substring(basePath.Length + 1)));
     }
 
+    /// <summary>
+    /// Removes mount prefixes from the given path.
+    /// </summary>
+    /// <param name="path">The path from which mount prefixes are to be removed.</param>
+    /// <returns>The path with the mount prefixes removed.</returns>
     public static string RemoveMountPrefixes(string path)
     {
         foreach (string p in PackfileDevice.ValidMountPrefixes.Where(x => path.StartsWith(x, StringComparison.InvariantCultureIgnoreCase)))
@@ -45,6 +58,12 @@ public static class Utils
         return path;
     }
 
+    /// <summary>
+    /// Extracts the core binary from the given device.
+    /// </summary>
+    /// <param name="device">The device from which to extract the core binary.</param>
+    /// <param name="corePath">The path of the core binary to extract.</param>
+    /// <returns>The core binary extracted from the device.</returns>
     public static CoreBinary ExtractCoreBinaryInMemory(PackfileDevice device, string corePath)
     {
         using var ms = new MemoryStream();
@@ -54,6 +73,12 @@ public static class Utils
         return CoreBinary.FromData(new BinaryReader(ms));
     }
 
+    /// <summary>
+    /// Extracts the core binary from the given device using the specified path ID.
+    /// </summary>
+    /// <param name="device">The device from which to extract the core binary.</param>
+    /// <param name="pathId">The path ID of the core binary to extract.</param>
+    /// <returns>The extracted core binary.</returns>
     public static CoreBinary ExtractCoreBinaryInMemory(PackfileDevice device, ulong pathId)
     {
         using var ms = new MemoryStream();
